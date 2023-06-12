@@ -1,7 +1,6 @@
 package PageObjects;
 
 
-import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -34,9 +33,11 @@ public class OrderPageSamokat {
     //Кнопка "Заказать":
     private By makeOrderButton = By.xpath("//button[@class='Button_Button__ra12g Button_Middle__1CSJM']");
     //Всплывающее окно "Хотите оформить заказ"
-    private By orderConfirmationModal = By.className("Order_Modal__YZ-d3");
+    public By orderConfirmationModal = By.className("Order_Modal__YZ-d3");
     //Кнопка "Да" на всплывающем окне "Хотите оформить заказ"
     private By orderConfirmationModalOkButton = By.xpath(".//button[contains(text(),'Да')]");
+    //Всплывающее окно "Заказ оформлен"
+    public By orderSubmittedModal = By.xpath("//div[contains(text(), 'Заказ оформлен')]");
 
 
     public OrderPageSamokat(WebDriver driver) {
@@ -127,18 +128,13 @@ public class OrderPageSamokat {
         driver.findElement(makeOrderButton).click();
     }
 
-    //Подтвердить всплывающее окно "Хотите оформить заказ"
-    public void confirmOrderConfirmationModalIsEnabled(){
-        Assert.assertTrue(orderConfirmationModal != null);
-    }
-
     //Кликнуть кнопку "Да" на всплывающем окне "Хотите оформить заказ"
     public void clickOrderConfirmationModalOkButton(){
         driver.findElement(orderConfirmationModalOkButton).click();
     }
 
-    // метод оформления заказа
-    public void makeOrder(String firstName, String lastName, String address, String stationName, String phoneNumber, String date, String duration, String color, String comment) {
+    // метод заполнения полей первой страницы оформления заказа
+    public void populateFieldsOnFirstOrderForm(String firstName, String lastName, String address, String stationName, String phoneNumber) {
         goToOrderPage();
         waitForOrderPageToLoad();
         setFirstName(firstName);
@@ -146,14 +142,12 @@ public class OrderPageSamokat {
         setAddress(address);
         setStation(stationName);
         setPhoneNumber(phoneNumber);
-        clickNextButton();
+    }
+    // метод заполнения полей второй страницы оформления заказа
+    public void populateFieldsOnSecondOrderForm(String date, String duration, String color, String comment){
         setDate(date);
         setRentDuration(duration);
         setScooterColor(color);
         setComment(comment);
-        clickMakeOrderButton();
-        confirmOrderConfirmationModalIsEnabled();
-        clickOrderConfirmationModalOkButton();
     }
-
 }

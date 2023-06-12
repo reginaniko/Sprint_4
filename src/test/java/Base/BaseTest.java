@@ -8,9 +8,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 public class BaseTest {
     protected WebDriver driver;
@@ -32,12 +29,10 @@ public class BaseTest {
         //для Chrome
         ChromeOptions option = new ChromeOptions();
         option.addArguments("--remote-allow-origins=*");
-
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
         driver = new ChromeDriver(option);
         driver.manage().window().maximize();
         driver.get(PAGE_URL);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         objHomePage = new HomePageSamokat(driver);
         objOrderPage = new OrderPageSamokat(driver);
     }
